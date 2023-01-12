@@ -1,10 +1,12 @@
 <template>
   <Header v-if="routeName? headerCheck : false" /> 
+  <Home />
   <RouterView />
 </template>
 
 
 <script setup>
+import Home from './views/Home.vue'
 import Header from './components/Header.vue';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
