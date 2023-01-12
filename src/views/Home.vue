@@ -1,0 +1,86 @@
+<template>
+  <!-- <Header /> -->
+  <div class="container pt-16 ">
+    <h1 class="text-center p-4 font-semibold text-white text-2xl">
+      <span class=" text-green">VUE</span>Movie
+    </h1>
+    <div>
+      <div class="relative">
+        <img 
+          class="block w-full h-[500px] relative z-0" 
+          src="../assets/img/6c6291ce-70d5-11ed-88ef-1ac952ccf1b8.avif"
+        >
+        <div class="absolute right-0 bottom-0 left-0 text-white p-4 transp ">
+          <h3 class="uppercase font-bold text-2xl pb-2">
+            Find Movie You want
+          </h3>
+          <p>It is a <span class=" text-green">VUE</span>Movie site to find film, series, cartoons and whatever you want. You can search it and find out about plot, rating of film and other usefull information you need. Don`t waste your time and go for the SEARCH.</p>
+        </div>
+      </div>
+    </div>
+    <form 
+      class="flex flex-col pt-10" 
+      @submit.prevent="searchMovies()"
+    >
+      <input 
+        v-model="search"  
+        class="maininp"
+        type="text" 
+        placeholder="What are you looking for?" 
+      >
+      <button class="searchbtn w-full max-w-xs bg-green p-4 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2 ">
+        Search
+      </button>
+    </form>
+
+    <div class="mt-10 flex flex-wrap">
+      <MovieCard 
+        v-for="MovieCard in movies"
+        :id="MovieCard.imdbID"
+        :key="MovieCard.imdbID" 
+        class="w-[30%] h-full my-4 mx-4 "
+        :poster="MovieCard.Poster" 
+        :type="MovieCard.Type"
+        :year="MovieCard.Year"
+        :title="MovieCard.Title" 
+      />
+    </div>
+  </div>
+</template>
+
+
+<script setup>
+// import Header from '../components/Header.vue';
+import MovieCard from '../components/MovieCard.vue';
+import { ref } from 'vue';
+
+
+const search = ref('');
+const movies = ref([]);
+
+const searchMovies = async () =>{
+  try {
+    if (search.value !== ''){
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_MOVIE_KEY}&s=${search.value}`);
+      const data = await resp.json();
+      movies.value = data.Search;
+    }
+  } catch (err){
+    alert(err);
+  } finally {
+    search.value = '';
+  }
+};
+
+
+</script>
+
+
+<style>
+.img{
+  display: block;
+  width: 100%;
+  height: 375px;
+  object-fit: fill;
+}
+</style>
