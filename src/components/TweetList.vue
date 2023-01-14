@@ -1,7 +1,9 @@
 <template>
   <select
     v-model="sortBy"
-    class="w-48 my-6 rounded-md h-8 bg-lightgray text-white"
+    class="w-48 my-6 rounded-md h-8 bg-lightgray text-white
+    sm:w-40
+    xs:w-40"
   >
     <option
       class="rounded-md"

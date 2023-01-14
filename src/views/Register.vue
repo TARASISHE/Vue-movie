@@ -1,7 +1,12 @@
 <template>
   <div class="w-full h-screen">
     <div class="flex justify-center items-center flex-col h-full">
-      <div class=" h-2/5 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl">
+      <div 
+        class="h-2/4 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
+               md:w-3/5
+               sm:w-3/5
+               xs:w-3/5"
+      >
         <h1 class="text-center text-white text-2xl">
           Register
         </h1>
@@ -25,7 +30,10 @@
         >
         <button 
           v-if="submitbtn"
-          class="searchbtn w-1/3 max-w-xs bg-green p-1 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2"
+          class="searchbtn w-1/3 max-w-xs bg-green p-1 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2
+                 md:text-lg
+                 sm:text-sm
+                 xs:text-sm"
           @click="register"
         >
           Submit
@@ -33,7 +41,7 @@
         <SpinnerBtn 
           v-if="spinner"
         />
-        <p class="text-white">
+        <p class="text-white sm:text-center xs:text-sm xs:text-center">
           If you have already account just <router-link
             class="text-green font-semibold"
             to="/login"

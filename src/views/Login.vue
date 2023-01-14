@@ -1,13 +1,18 @@
 <template>
   <div class="w-full h-screen">
     <div class="flex justify-center items-center flex-col h-full">
-      <div class=" h-2/5 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl">
+      <div 
+        class=" h-2/5 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
+                md:w-3/5
+                sm:w-3/5
+                xs:w-3/5"
+      >
         <h1 class="text-center text-white text-2xl">
           Login
         </h1>
         <input 
           v-model="email"
-          class=" px-4 py-1 w-3/4 rounded text-white bg-lightgray focus:outline-none focus:ring focus:ring-slate-900 placeholder:text-white" 
+          class=" px-4 py-1 w-3/4 rounded text-white bg-lightgray focus:outline-none focus:ring focus:ring-slate-900 placeholder:text-white " 
           placeholder="Enter email..." 
           type="text"
         >
@@ -19,13 +24,16 @@
         >
         <p
           v-if="errMsg"
-          class="text-[red]"
+          class="text-[#ea3d4f]"
         >
           {{ errMsg }}
         </p>
         <button 
           v-if="submitbtn"
-          class="searchbtn w-1/3 max-w-xs bg-green p-1 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2"
+          class="searchbtn w-1/3 max-w-xs bg-green p-1 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2
+          md:text-lg
+          sm:text-sm
+          xs:text-sm"
           @click="login"
         >
           Submit
@@ -33,7 +41,11 @@
         <SpinnerBtn 
           v-if="spinner"
         />
-        <p class="text-white">
+        <p 
+          class="text-white
+                 
+                 xs:text-sm xs:text-center"
+        >
           If you don`t have account just <router-link
             class="text-green font-semibold"
             to="/register"
@@ -56,41 +68,61 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const email = ref('');
 const password = ref('');
-const errMsg = ref();
+const errMsg = ref('');
 const spinner = ref(false);
 const submitbtn = ref(true);
 
-const login = async ()=>{
-  spinner.value = true;
-  submitbtn.value = false;
-  try {
-    signInWithEmailAndPassword(getAuth(), email.value, password.value);
-  } catch (error) {
-    switch (error.code){
-    case 'auth/invalid-email':
-      errMsg.value = 'Invalid email';
-      break;
-    case 'auth/user-not-found':
-      errMsg.value = 'No account with this email was found';
-      break;
-    case 'auth/wrong-password':
-      errMsg.value = 'Weak-password';
-      break;
-    default:
-      errMsg.value = 'Email or password was incorect';
-    }
-    // if (error.code === 'auth/invalid-email'){
-    //   errMsg.value = 'Invalid email';
-    // } else if (error.code === 'auth/user-not-found'){
-    //   errMsg.value = 'No account with this email was found';
-    // } else if (error.code === 'auth/wrong-password'){
-    //   errMsg.value = 'Wrong-password';
-    // } 
-  } finally {
-    router.push('/'); 
-    spinner.value = false;
-    submitbtn.value = true;
-  }
+const login = () => {
+  const auth = getAuth();
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(()=>{
+      router.push('/');
+    })
+    .catch((error)=>{
+      switch (error.code){
+      case 'auth/invalid-email':
+        errMsg.value = 'Invalid email';
+        break;
+      case 'auth/user-not-found':
+        errMsg.value = 'No account with this email was found';
+        break;
+      case 'auth/wrong-password':
+        errMsg.value = 'Wrong-password';
+        break;
+      default:
+        errMsg.value = 'Email or password was incorect';
+        break;
+      }
+    });
 };
+
+
+// const login = ()=> { 
+//   spinner.value = true;
+//   submitbtn.value = false;
+//   try {
+//     const auth = getAuth();
+//     signInWithEmailAndPassword(auth, email.value, password.value);
+//     router.push('/');
+//   } catch (error) {
+//     switch (error.code){
+//     case 'auth/invalid-email':
+//       errMsg.value = 'Invalid email';
+//       break;
+//     case 'auth/user-not-found':
+//       errMsg.value = 'No account with this email was found';
+//       break;
+//     case 'auth/wrong-password':
+//       errMsg.value = 'wrong-password';
+//       break;
+//     default:
+//       errMsg.value = 'Email or password was incorect';
+//       break;
+//     }
+//   } finally { 
+//     spinner.value = false;
+//     submitbtn.value = true;
+//   }
+// };
 
 </script>

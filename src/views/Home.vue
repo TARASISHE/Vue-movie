@@ -1,6 +1,6 @@
 <template>
   <!-- <Header /> -->
-  <div class="container pt-16 ">
+  <div class="container pt-16 px-4">
     <h1 class="text-center p-4 font-semibold text-white text-2xl">
       <span class=" text-green">VUE</span>Movie
     </h1>
@@ -19,7 +19,10 @@
       </div>
     </div>
     <form 
-      class="flex flex-col pt-10" 
+      class="flex flex-col pt-10 
+      md:flex-col md:items-center md:justify-center
+      sm:flex-col sm:items-center sm:justify-center
+      xs:flex-col xs:items-center xs:justify-center" 
       @submit.prevent="searchMovies()"
     >
       <input 
@@ -33,7 +36,11 @@
       </button>
     </form>
 
-    <div class="mt-10 flex flex-wrap">
+    <div class="mt-10 flex flex-wrap 
+                md:items-center md:justify-center 
+                sm:flex-col sm:items-center sm:justify-center
+                sm:flex-col sm:items-center sm:justify-center
+                xs:flex-col xs:items-center xs:justify-center">
       <MovieCard 
         v-for="MovieCard in movies"
         :id="MovieCard.imdbID"

@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-header w-full h-14 fixed z-10">
+  <nav class="bg-header w-full h-14 fixed z-10 px-4">
     <div class="container">
       <div class="flex py-4 justify-between items-center ">
         <div>

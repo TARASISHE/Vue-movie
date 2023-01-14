@@ -1,5 +1,10 @@
 <template>
-  <router-link :to="`/movie/${id}`">
+  <router-link 
+    :to="`/movie/${id}`"
+    class="
+    sm:w-3/5
+    xs:w-3/5"
+  >
     <div class="relative block w-full overflow-hidden">
       <img
         class="img"

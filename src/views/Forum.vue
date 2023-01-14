@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-14">
+  <div class="container pt-14 px-4">
     <h1 class="pt-8 text-center text-white text-3xl">
       Forum
     </h1>
@@ -12,10 +12,15 @@
           v-model="body"
           required
           placeholder="Write your tweet..."
-          class="placeholder:text-white w-5/6 h-28 bg-lightgray rounded-lg resize-none p-4"
+          class="placeholder:text-white w-full h-28 bg-lightgray rounded-lg resize-none p-4
+          md:w-full
+          sm:w-full"
         />
         <button
-          class="text-white w-1/6 inline-block bg-green rounded-lg h-10 mt-4 tweetbtn duration-300"
+          class="text-white w-1/6 inline-block bg-green rounded-lg h-10 mt-4 tweetbtn duration-300
+          md:w-1/4
+          sm:w-2/6
+          xs:w-1/4"
           type="submit"
         >
           Post
