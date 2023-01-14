@@ -46,11 +46,11 @@ router.beforeEach((to, from, next) =>{
       next();
     } else {
       alert('Don`t have access');
-      next('/');
+      next('/login');
     }
   } else {
     next();
-  }
+  } 
 });
 
 
