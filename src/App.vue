@@ -1,6 +1,6 @@
 <template>
   <Header v-if="routeName? headerCheck : false" /> 
-  <Home v-if="check? HomeCheck: false" />
+  <Home v-if="check? HomeCheck : false" />
   <RouterView />
 </template>
 
@@ -20,7 +20,10 @@ const routeName = computed(() => {
 });
 
 const check = computed(() => {
-  return router.currentRoute.value.path === '/login' ; 
+  return router.currentRoute.value.path === '/login' && 
+  router.currentRoute.value.path === '/register' && 
+  router.currentRoute.value.path === '/movie/:id' && 
+  router.currentRoute.value.path === '/forum'; 
 });
 
 </script>
