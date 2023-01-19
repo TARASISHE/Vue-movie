@@ -5,7 +5,7 @@
         class=" h-2/5 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
                 md:w-3/5
                 sm:w-3/5
-                xs:w-3/5"
+                xs:w-4/5 xs:h-3/5"
       >
         <h1 class="text-center text-white text-2xl">
           Login
@@ -74,6 +74,8 @@ const submitbtn = ref(true);
 
 const login = () => {
   const auth = getAuth();
+  spinner.value = true;
+  submitbtn.value = false; 
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then(()=>{
       router.push('/');
@@ -93,6 +95,10 @@ const login = () => {
         errMsg.value = 'Email or password was incorect';
         break;
       }
+    })
+    .then(()=>{
+      spinner.value = false;
+      submitbtn.value = true;
     });
 };
 

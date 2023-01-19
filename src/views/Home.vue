@@ -1,5 +1,4 @@
 <template>
-  <!-- <Header /> -->
   <div class="container pt-16 px-4">
     <h1 class="text-center p-4 font-semibold text-white text-2xl">
       <span class=" text-green">VUE</span>Movie
@@ -7,14 +6,17 @@
     <div>
       <div class="relative">
         <img 
-          class="block w-full h-[500px] relative z-0" 
+          class="block w-full h-[500px] relative z-0
+          xs:h-72" 
           src="../assets/img/6c6291ce-70d5-11ed-88ef-1ac952ccf1b8.avif"
         >
-        <div class="absolute right-0 bottom-0 left-0 text-white p-4 transp ">
-          <h3 class="uppercase font-bold text-2xl pb-2">
+        <div class="absolute right-0 bottom-0 left-0 text-white p-4 transp">
+          <h3 class="uppercase font-bold text-2xl pb-2xs:text-xl">
             Find Movie You want
           </h3>
-          <p>It is a <span class=" text-green">VUE</span>Movie site to find film, series, cartoons and whatever you want. You can search it and find out about plot, rating of film and other usefull information you need. Don`t waste your time and go for the SEARCH.</p>
+          <p class="xs:text-xs">
+            It is a <span class=" text-green">VUE</span>Movie site to find film, series, cartoons and whatever you want. You can search it and find out about plot, rating of film and other usefull information you need. Don`t waste your time and go for the SEARCH.
+          </p>
         </div>
       </div>
     </div>
@@ -34,13 +36,20 @@
       <button class="searchbtn w-full max-w-xs bg-green p-4 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2 ">
         Search
       </button>
+      <p
+        v-if="errStatus"
+        class="text-[red] text-2xl pt-4"
+      >
+        Nothing found
+      </p>
     </form>
 
-    <div class="mt-10 flex flex-wrap 
+    <div
+      class="mt-10 flex flex-wrap 
                 md:items-center md:justify-center 
                 sm:flex-col sm:items-center sm:justify-center
-                sm:flex-col sm:items-center sm:justify-center
-                xs:flex-col xs:items-center xs:justify-center">
+                xs:flex-col xs:items-center xs:justify-center"
+    >
       <MovieCard 
         v-for="MovieCard in movies"
         :id="MovieCard.imdbID"
@@ -57,21 +66,27 @@
 
 
 <script setup>
-// import Header from '../components/Header.vue';
+
 import MovieCard from '../components/MovieCard.vue';
 import { ref } from 'vue';
 
 
 const search = ref('');
 const movies = ref([]);
+const errStatus = ref(false);
 
 const searchMovies = async () =>{
   try {
     if (search.value !== ''){
       const resp = await fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_MOVIE_KEY}&s=${search.value}`);
       const data = await resp.json();
-      movies.value = data.Search;
-    }
+      if (data.Search){
+        movies.value = data.Search;
+        errStatus.value = false;
+      } else {
+        errStatus.value = true;
+      }
+    } 
   } catch (err){
     alert(err);
   } finally {

@@ -9,7 +9,7 @@
           <span>{{ item.date }}</span>
         </div>
         <div>{{ item.body }}</div>
-        <div class="flex items-center max-w-[15px] cursor-pointer">
+        <div @click="likes++" class="flex items-center max-w-[15px] cursor-pointer">
           <div class="flex items-center justify-center w-10 h-10">
             <svg
               class="hover:fill-[red] hover:border-[red]"
@@ -28,10 +28,8 @@
               />
             </svg>
           </div>
-          <!-- <span @click="toggleLikes" class="pl-1">{{ likes }}</span> @click="toggleLikes"  @click="$emit('toggleLikes')" -->
           <span
             class="pl-1"
-            @click="likes++"
           >{{ likes }}</span> 
         </div>
       </div>
@@ -42,7 +40,7 @@
 <script setup>
 
 import { ref, watch } from 'vue'; //watch
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc,  } from 'firebase/firestore';
 import { db } from '../main';
 
 const props = defineProps({
@@ -53,10 +51,11 @@ defineEmits(['toggleLikes']);
 const likes = ref(props.item.likes);
 
 watch( likes, (val)=> {
-  const likerBodya = doc(db, 'tweets', props.item.id);
-  updateDoc(likerBodya, {
+  const updLikes = doc(db, 'tweets', props.item.id);
+  updateDoc(updLikes, {
     likes: val
   });
+  
 });
 
 </script>

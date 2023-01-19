@@ -12,7 +12,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const headerCheck = ref(true);
-const HomeCheck = ref(false);
+const HomeCheck = ref(true);
 const router = useRouter();
 
 const routeName = computed(() => {

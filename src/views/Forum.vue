@@ -35,7 +35,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import TweetList from '../components/TweetList.vue';
-import { collection, onSnapshot, addDoc } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../main';
 
 
@@ -53,6 +53,7 @@ const addTweet = () =>{
   body.value = '';
 };
 
+
 onMounted(() => {
   onSnapshot(collection(db, 'tweets'), (querySnapshot) => {
     const fbTweets = [];
@@ -68,8 +69,21 @@ onMounted(() => {
     });
     items.value = fbTweets ;
   });
+//   const querySnapshot = await getDocs(collection(db, 'tweets'))
+//   const fbTweets = [];
+//   querySnapshot.forEach((doc) => {
+//     const tweet = {
+//       id: doc.id,
+//       avatar: `https://avatars.dicebear.com/api/male/${Date.now()}.svg`,
+//       body: doc.data().body,
+//       likes: doc.data().likes,
+//       date: new Date(Date.now()).toLocaleString()
+//     };
+//     fbTweets.push(tweet);
+//   });
+//   items.value = fbTweets ;
 });    
-   
+
 
 </script>
 

@@ -5,13 +5,14 @@
         class="h-2/4 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
                md:w-3/5
                sm:w-3/5
-               xs:w-3/5"
+               xs:w-4/5 xs:h-3/5"
       >
         <h1 class="text-center text-white text-2xl">
           Register
         </h1>
         <input 
           v-model="name"
+          required
           class=" px-4 py-1 w-3/4 rounded text-white bg-lightgray focus:outline-none focus:ring focus:ring-slate-900 placeholder:text-white" 
           placeholder="Enter your name..." 
           type="text"
@@ -73,17 +74,18 @@ const register = async ()=>{
   spinner.value = true;
   submitbtn.value = false; 
   try {
-    await createUserWithEmailAndPassword(getAuth(), email.value, password.value);
-    const auth = getAuth();
-    await updateProfile(auth.currentUser, {
-      displayName: name.value
-    });
-  } catch (error){
-    if (error){
-      alert(`Error:${error}`);
+    if (name.value === ''){
+      alert('Enter your name');
     } else {
-      router.push('/');
+      await createUserWithEmailAndPassword(getAuth(), email.value, password.value);
+      const auth = getAuth();
+      await updateProfile(auth.currentUser, {
+        displayName: name.value
+      });
+      router.push('/'); 
     }
+  } catch (error){
+    alert(`Error:${error}`);
   } finally {
     spinner.value = false;
     submitbtn.value = true;
