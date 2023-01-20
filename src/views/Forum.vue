@@ -36,6 +36,7 @@
 import { ref, onMounted } from 'vue';
 import TweetList from '../components/TweetList.vue';
 import { collection, addDoc, onSnapshot } from 'firebase/firestore';
+//query, orderBy, startAfter, limit, getDocs 
 import { db } from '../main';
 
 
@@ -60,10 +61,10 @@ onMounted(() => {
     querySnapshot.forEach((doc) => {
       const tweet = {
         id: doc.id,
-        avatar: `https://avatars.dicebear.com/api/male/${Date.now()}.svg`,
+        avatar: doc.data().avatar,
         body: doc.data().body,
         likes: doc.data().likes,
-        date: new Date(Date.now()).toLocaleString()
+        date: doc.data().date
       };
       fbTweets.push(tweet);
     });
@@ -83,6 +84,19 @@ onMounted(() => {
 //   });
 //   items.value = fbTweets ;
 });    
+
+// onMounted( async ()=>{
+//   const first = query(collection(db, 'tweets'), orderBy('date'), limit(2));
+//   const documentSnapshots = await getDocs(first);
+//   console.log(first)
+//   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+//   console.log('last', lastVisible);
+
+//   const next = query(collection(db, 'tweets'),
+//     orderBy('date'),
+//     startAfter(lastVisible),
+//     limit(2));
+// });
 
 
 </script>

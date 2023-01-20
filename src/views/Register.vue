@@ -7,11 +7,17 @@
                sm:w-3/5
                xs:w-4/5 xs:h-3/5"
       >
+        <routerLink class="text-center text-white text-sm font-thin hover:underline" 
+                    to="/"
+        >
+          &lt; Back to home
+        </routerLink>
         <h1 class="text-center text-white text-2xl">
           Register
         </h1>
         <input 
           v-model="name"
+          v-autofocus
           required
           class=" px-4 py-1 w-3/4 rounded text-white bg-lightgray focus:outline-none focus:ring focus:ring-slate-900 placeholder:text-white" 
           placeholder="Enter your name..." 
@@ -60,7 +66,7 @@ import SpinnerBtn from '../components/SpinnerBtn.vue';
 import { ref } from 'vue';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useRouter } from 'vue-router';
-
+import { vAutofocus } from '../directives/vAutofocus';
 
 const router = useRouter();
 const email = ref('');

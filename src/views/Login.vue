@@ -2,16 +2,22 @@
   <div class="w-full h-screen">
     <div class="flex justify-center items-center flex-col h-full">
       <div 
-        class=" h-2/5 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
+        class=" h-3/6 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
                 md:w-3/5
                 sm:w-3/5
                 xs:w-4/5 xs:h-3/5"
       >
+        <routerLink class="text-center text-white text-sm font-thin  hover:underline" 
+                    to="/"
+        >
+          &lt; Back to home
+        </routerLink>
         <h1 class="text-center text-white text-2xl">
           Login
         </h1>
         <input 
           v-model="email"
+          v-autofocus
           class=" px-4 py-1 w-3/4 rounded text-white bg-lightgray focus:outline-none focus:ring focus:ring-slate-900 placeholder:text-white " 
           placeholder="Enter email..." 
           type="text"
@@ -63,6 +69,7 @@ import SpinnerBtn from '../components/SpinnerBtn.vue';
 import { ref } from 'vue';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'vue-router';
+import { vAutofocus } from '../directives/vAutofocus';
 
 
 const router = useRouter();

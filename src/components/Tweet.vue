@@ -8,7 +8,7 @@
         <div class="block mb-2 ">
           <span>{{ item.date }}</span>
         </div>
-        <div>{{ item.body }}</div>
+        <div class="max-w-6xl">{{ item.body }}</div>
         <div @click="likes++" class="flex items-center max-w-[15px] cursor-pointer">
           <div class="flex items-center justify-center w-10 h-10">
             <svg
@@ -40,7 +40,7 @@
 <script setup>
 
 import { ref, watch } from 'vue'; //watch
-import { doc, updateDoc,  } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../main';
 
 const props = defineProps({
@@ -50,9 +50,9 @@ defineEmits(['toggleLikes']);
 
 const likes = ref(props.item.likes);
 
-watch( likes, (val)=> {
+watch( likes, async (val)=> {
   const updLikes = doc(db, 'tweets', props.item.id);
-  updateDoc(updLikes, {
+  await updateDoc(updLikes, {
     likes: val
   });
   
