@@ -1,27 +1,36 @@
 <template>
-  <button
-    class="searchbtn w-1/3 max-w-xs flex items-center justify-center bg-green p-1 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2"
+  <img
+    class="spinner"
+    src="../assets/img/spinner-svgrepo-com.svg"
+    alt=""
   >
-    <img
-      class="spinner"
-      src="../assets/img/spinner-svgrepo-com.svg"
-      alt=""
-    >
-  </button>
 </template>
+
+<script setup>
+
+
+</script>
 
 <style scoped>
 .spinner {
   animation: rotate 2s linear infinite;
-  width: 30px;
-  height: 30px;
-  color: aliceblue;
+  z-index: 2;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+  width: 50px;
+  height: 50px;
+  color: #FFF;
+  background-color: #FFF;
+  border-radius: 50%;
 }
   .path {
-    stroke: rgb(0, 116, 232);
+    stroke: rgb(238, 241, 244);
     stroke-linecap: round;
     animation: dash 1.5s ease-in-out infinite;
 }
+
 
 @keyframes rotate {
   100% {
@@ -43,4 +52,10 @@
     stroke-dashoffset: -124;
   }
 }
+@media screen and (max-width:470px){
+  .spinner{
+    top: 30%;
+  }
+}
+
 </style>

@@ -33,9 +33,17 @@
         type="text" 
         placeholder="What are you looking for?" 
       >
-      <button class="searchbtn w-full max-w-xs bg-green p-4 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2 ">
-        Search
-      </button>
+      <div class="flex items-center md:flex-col">
+        <button class="searchbtn w-full max-w-xs bg-green p-4 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2 md:max-w-sm md:w-64 ">
+          Search
+        </button>
+        <p
+          v-if="loadingMessage"
+          class="text-white ml-5 md:mt-6 md:ml-0"
+        >
+          Finding films...
+        </p>
+      </div>
       <p
         v-if="errStatus"
         class="text-[red] text-2xl pt-4"
@@ -43,7 +51,6 @@
         Nothing found
       </p>
     </form>
-
     <div
       class="mt-10 flex flex-wrap 
                 md:items-center md:justify-center 
@@ -66,7 +73,6 @@
 
 
 <script setup>
-
 import MovieCard from '../components/MovieCard.vue';
 import { ref } from 'vue';
 
@@ -74,8 +80,10 @@ import { ref } from 'vue';
 const search = ref('');
 const movies = ref([]);
 const errStatus = ref(false);
+const loadingMessage = ref(false);
 
 const searchMovies = async () =>{
+  loadingMessage.value = true;
   try {
     if (search.value !== ''){
       const resp = await fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_MOVIE_KEY}&s=${search.value}`);
@@ -91,6 +99,7 @@ const searchMovies = async () =>{
     alert(err);
   } finally {
     search.value = '';
+    loadingMessage.value = false;
   }
 };
 
@@ -98,11 +107,16 @@ const searchMovies = async () =>{
 </script>
 
 
-<style>
+<style scoped>
 .img{
   display: block;
   width: 100%;
   height: 375px;
   object-fit: fill;
+}
+
+.spinner{
+  left: 50%;
+  top: 125%;
 }
 </style>

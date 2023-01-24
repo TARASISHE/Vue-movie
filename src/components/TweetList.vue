@@ -18,14 +18,11 @@
       Sort by like
     </option>
   </select>
-  <ul>
-    <Tweet
-      v-for="item in sorteredItems"
-      :key="item.id"
-      :item="item"
-      @toggleLikes="toggleLikes"
-    />
-  </ul>
+  <Tweet
+    v-for="item in sorteredItems"
+    :key="item.id"
+    :item="item"
+  />
 </template>
   
 <script setup>
@@ -39,16 +36,8 @@ const props = defineProps({
   }
 });
 
-
-const liked = ref(false)
-const toggleLikes = () =>{
-  liked.value = !liked.value;
-  liked.value ? item.likes.value++ : item.likes.value-- ;
-
-};
-
   
-const sortBy = ref('date');
+const sortBy = ref('likes');
 const sorteredItems = computed(() => {
   const itemsSorted = [...props.items];
   return itemsSorted.sort((a, b) => {
@@ -58,5 +47,3 @@ const sorteredItems = computed(() => {
 });
   
 </script>
-
-

@@ -26,22 +26,69 @@
           Post
         </button>
       </form>
-      <TweetList :items="items" />
+      <Transition
+        name="fade"
+        mode="out-in"
+      >
+        <Spinner v-if="spinner" />
+      </Transition>
+      <TweetList
+        v-if="showItems"
+        :items="items"
+      />
+      <div
+        v-if="hideBtnsOnLoad"
+        class="flex items-center justify-center text-white gap-8 mt-5 pb-5 text-xl"
+      >
+        <button
+          v-if=" page === 1 ? hiddenBtn : true"
+          @click="showPreviousTweets()"
+        >
+          &leftarrow; Previous
+        </button>
+        <button 
+          v-if="noDispNextBtn === page ? hiddenBtn : true"
+          @click="showNextTweets()"
+        >
+          Next &rightarrow;
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script setup>
+
+import Spinner from '../components/Spinner.vue';
 import { ref, onMounted } from 'vue';
 import TweetList from '../components/TweetList.vue';
-import { collection, addDoc, onSnapshot } from 'firebase/firestore';
-//query, orderBy, startAfter, limit, getDocs 
-import { db } from '../main';
-
+import { 
+  collection, 
+  addDoc, 
+  getDocs, 
+  query, 
+  startAfter, 
+  orderBy, 
+  limit, 
+  endBefore, 
+  limitToLast, 
+  getCountFromServer 
+} from 'firebase/firestore';
+import { db } from '../firebase';
 
 const items = ref([]);
 const body = ref('');
+const totol = ref('');
+const limited = ref(5);
+const paginations = ref('');
+const page = ref(1);
+const lastVisibles = ref('');
+const firstVisibles = ref('');
+const hiddenBtn = ref(false);
+const spinner = ref(false);
+const showItems = ref(false);
+const hideBtnsOnLoad = ref(false);
 
 
 const addTweet = () =>{
@@ -55,49 +102,152 @@ const addTweet = () =>{
 };
 
 
-onMounted(() => {
-  onSnapshot(collection(db, 'tweets'), (querySnapshot) => {
-    const fbTweets = [];
-    querySnapshot.forEach((doc) => {
-      const tweet = {
-        id: doc.id,
-        avatar: doc.data().avatar,
-        body: doc.data().body,
-        likes: doc.data().likes,
-        date: doc.data().date
-      };
-      fbTweets.push(tweet);
-    });
-    items.value = fbTweets ;
+const getTotalDocuments = async () =>{
+
+  const totalDates = query(collection(db, 'tweets'));
+  const documentSnapshots = await getDocs(totalDates);
+  const total = documentSnapshots.docs.length;
+  totol.value = total;
+  paginations.value = Math.ceil(totol.value / limited.value);
+};
+
+const getTweets = async ()=>{
+  spinner.value = true;
+  showItems.value = false;
+  hideBtnsOnLoad.value = false;
+  const first = query(
+    collection(db, 'tweets'),
+    orderBy('date'),
+    limit(limited.value)
+  );
+
+  getTotalDocuments();
+  const documentSnapshots = await getDocs(first);
+  const lastVisible =
+    documentSnapshots.docs[documentSnapshots.docs.length - 1] || null;
+  const firstVisible = documentSnapshots.docs[0] || null;
+  lastVisibles.value = lastVisible;
+  firstVisibles.value = firstVisible;
+
+  const querySnapshot = await getDocs(first);
+  const fbTweets = [];
+  querySnapshot.forEach((doc) => {
+    let item = {
+      id: doc.id,
+      avatar: doc.data().avatar,
+      body: doc.data().body,
+      likes: doc.data().likes,
+      date: doc.data().date
+    }; 
+    fbTweets.push(item);
   });
-//   const querySnapshot = await getDocs(collection(db, 'tweets'))
-//   const fbTweets = [];
-//   querySnapshot.forEach((doc) => {
-//     const tweet = {
-//       id: doc.id,
-//       avatar: `https://avatars.dicebear.com/api/male/${Date.now()}.svg`,
-//       body: doc.data().body,
-//       likes: doc.data().likes,
-//       date: new Date(Date.now()).toLocaleString()
-//     };
-//     fbTweets.push(tweet);
-//   });
-//   items.value = fbTweets ;
-});    
+  items.value = fbTweets;
+  spinner.value = false;
+  showItems.value = true;
+  hideBtnsOnLoad.value = true;
+};
 
-// onMounted( async ()=>{
-//   const first = query(collection(db, 'tweets'), orderBy('date'), limit(2));
-//   const documentSnapshots = await getDocs(first);
-//   console.log(first)
-//   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-//   console.log('last', lastVisible);
+const showNextTweets = async () =>{
+  spinner.value = true;
+  showItems.value = false;
+  hideBtnsOnLoad.value = false;
+  const next = query(
+    collection(db, 'tweets'),
+    orderBy('date'),
+    limit(limited.value),
+    startAfter(lastVisibles.value)
+  );
+  const documentSnapshots = await getDocs(next);
+  const lastVisible =
+    documentSnapshots.docs[documentSnapshots.docs.length - 1] || null;
+  lastVisibles.value = lastVisible;
+  const firstVisible = documentSnapshots.docs[0] || null;
+  firstVisibles.value = firstVisible;
+  page.value = page.value + 1;
 
-//   const next = query(collection(db, 'tweets'),
-//     orderBy('date'),
-//     startAfter(lastVisible),
-//     limit(2));
-// });
+  const fbNextTweets = [];
+  const querySnapshot = await getDocs(next);
+  querySnapshot.forEach((doc) => {
+    let item = {
+      id: doc.id,
+      avatar: doc.data().avatar,
+      body: doc.data().body,
+      likes: doc.data().likes,
+      date: doc.data().date
+    };
+    fbNextTweets.push(item);
+  });
+  items.value = fbNextTweets;
+  spinner.value = false;
+  showItems.value = true;
+  hideBtnsOnLoad.value = true;
+};
 
+const showPreviousTweets = async () =>{
+  spinner.value = true;
+  showItems.value = false;
+  hideBtnsOnLoad.value = false;
+  const back = query(
+    collection(db, 'tweets'),
+    orderBy('date'),
+    limitToLast(limited.value),
+    endBefore(firstVisibles.value)
+  );
+
+  const documentSnapshots = await getDocs(back);
+  const lastVisible =
+    documentSnapshots.docs[documentSnapshots.docs.length - 1] || null;
+  lastVisibles.value = lastVisible;
+  const firstVisible = documentSnapshots.docs[0] || null;
+  firstVisibles.value = firstVisible;
+  page.value = page.value - 1;
+
+
+  const fbPrevTweets = [];
+  const querySnapshot = await getDocs(back);
+  querySnapshot.forEach((doc) => {
+    let item = {
+      id: doc.id,
+      avatar: doc.data().avatar,
+      body: doc.data().body,
+      likes: doc.data().likes,
+      date: doc.data().date
+    };
+    fbPrevTweets.push(item);
+  });
+  items.value = fbPrevTweets;
+  spinner.value = false;
+  showItems.value = true;
+  hideBtnsOnLoad.value = true;
+};
+
+const noDispNextBtn = ref();
+
+const hideNextBtn = async () =>{
+  const coll = collection(db, 'tweets');
+  const snapshot = await getCountFromServer(coll);
+  const totalTweets = snapshot.data().count;
+  const result = Math.ceil(totalTweets / 5);
+  noDispNextBtn.value = result;
+};
+
+hideNextBtn();
+
+const noDispPrevBtn = ref();
+
+const hidePrevBtn = async () =>{
+  const coll = collection(db, 'tweets');
+  const snapshot = await getCountFromServer(coll);
+  const totalTweets = snapshot.data().count;
+  const result = Math.floor(totalTweets / 5);
+  noDispPrevBtn.value = result;
+};
+
+hidePrevBtn();
+
+onMounted(()=>{
+  getTweets();
+});
 
 </script>
 

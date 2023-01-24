@@ -41,6 +41,7 @@
 </template>
 
 <script setup>
+
 import { ref } from 'vue';
 import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
 import router from '../router';
@@ -60,6 +61,7 @@ onAuthStateChanged(auth, (user)=>{
     isLoggedIn.value = false;
     userFb.value = null;
   }
+
 });
 
 

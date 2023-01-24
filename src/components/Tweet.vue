@@ -8,8 +8,13 @@
         <div class="block mb-2 ">
           <span>{{ item.date }}</span>
         </div>
-        <div class="max-w-6xl">{{ item.body }}</div>
-        <div @click="likes++" class="flex items-center max-w-[15px] cursor-pointer">
+        <div class="max-w-6xl">
+          {{ item.body }}
+        </div>
+        <div
+          class="flex items-center max-w-[15px] cursor-pointer"
+          @click="likes++"
+        >
           <div class="flex items-center justify-center w-10 h-10">
             <svg
               class="hover:fill-[red] hover:border-[red]"
@@ -39,9 +44,9 @@
   
 <script setup>
 
-import { ref, watch } from 'vue'; //watch
+import { ref, watch } from 'vue'; 
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../main';
+import { db } from '../firebase';
 
 const props = defineProps({
   item: Object
@@ -64,4 +69,5 @@ img {
   width: 100%;
   height: 100%;
 }
+
 </style>

@@ -109,33 +109,4 @@ const login = () => {
     });
 };
 
-
-// const login = ()=> { 
-//   spinner.value = true;
-//   submitbtn.value = false;
-//   try {
-//     const auth = getAuth();
-//     signInWithEmailAndPassword(auth, email.value, password.value);
-//     router.push('/');
-//   } catch (error) {
-//     switch (error.code){
-//     case 'auth/invalid-email':
-//       errMsg.value = 'Invalid email';
-//       break;
-//     case 'auth/user-not-found':
-//       errMsg.value = 'No account with this email was found';
-//       break;
-//     case 'auth/wrong-password':
-//       errMsg.value = 'wrong-password';
-//       break;
-//     default:
-//       errMsg.value = 'Email or password was incorect';
-//       break;
-//     }
-//   } finally { 
-//     spinner.value = false;
-//     submitbtn.value = true;
-//   }
-// };
-
 </script>
