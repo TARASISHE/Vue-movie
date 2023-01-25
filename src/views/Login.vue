@@ -7,8 +7,9 @@
                 sm:w-3/5
                 xs:w-4/5 xs:h-3/5"
       >
-        <routerLink class="text-center text-white text-sm font-thin  hover:underline" 
-                    to="/"
+        <routerLink
+          class="text-center text-white text-sm font-thin  hover:underline" 
+          to="/"
         >
           &lt; Back to home
         </routerLink>

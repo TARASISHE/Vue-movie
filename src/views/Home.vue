@@ -58,14 +58,14 @@
                 xs:flex-col xs:items-center xs:justify-center"
     >
       <MovieCard 
-        v-for="MovieCard in movies"
-        :id="MovieCard.imdbID"
-        :key="MovieCard.imdbID" 
+        v-for="movie in movies"
+        :id="movie.imdbID"
+        :key="movie.imdbID" 
+        :poster="movie.Poster" 
+        :type="movie.Type"
+        :year="movie.Year"
+        :title="movie.Title" 
         class="w-[30%] h-full my-4 mx-4 "
-        :poster="MovieCard.Poster" 
-        :type="MovieCard.Type"
-        :year="MovieCard.Year"
-        :title="MovieCard.Title" 
       />
     </div>
   </div>
@@ -97,15 +97,13 @@ const searchMovies = async () =>{
     } 
   } catch (err){
     alert(err);
+    errStatus.value = true;
   } finally {
     search.value = '';
     loadingMessage.value = false;
   }
 };
-
-
 </script>
-
 
 <style scoped>
 .img{

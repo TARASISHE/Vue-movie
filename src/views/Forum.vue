@@ -32,10 +32,15 @@
       >
         <Spinner v-if="spinner" />
       </Transition>
-      <TweetList
-        v-if="showItems"
-        :items="items"
-      />
+      <TransitionGroup
+        tag="ul" 
+        name="fade"
+      >
+        <TweetList
+          v-if="showItems"
+          :items="items"
+        />
+      </TransitionGroup>
       <div
         v-if="hideBtnsOnLoad"
         class="flex items-center justify-center text-white gap-8 mt-5 pb-5 text-xl"
@@ -181,6 +186,7 @@ const showNextTweets = async () =>{
   spinner.value = false;
   showItems.value = true;
   hideBtnsOnLoad.value = true;
+  window.scrollTo(0, 0);
 };
 
 const showPreviousTweets = async () =>{
@@ -219,6 +225,7 @@ const showPreviousTweets = async () =>{
   spinner.value = false;
   showItems.value = true;
   hideBtnsOnLoad.value = true;
+  window.scrollTo(0, 0);
 };
 
 const noDispNextBtn = ref();

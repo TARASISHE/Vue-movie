@@ -37,20 +37,23 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const movie = ref({});
 const route = useRoute();
 
-onBeforeMount( async () => {
+const loadInfoAboutMovie = async() =>{
   try {
-    const resp = await fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_MOVIE_KEY}&i=${route.params.id}&plot=full`);
+    const resp = await fetch(
+      `http://www.omdbapi.com/?apikey=${import.meta.env.VITE_MOVIE_KEY}&i=${route.params.id}&plot=full`
+    );
     const data = await resp.json();
     movie.value = data;
   } catch (error){
     alert(`Error:${error}`);
-  } 
-});
+  }
+};
+loadInfoAboutMovie();
 
 </script>
