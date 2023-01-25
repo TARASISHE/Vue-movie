@@ -2,7 +2,7 @@
   <div class="w-full h-screen">
     <div class="flex justify-center items-center flex-col h-full">
       <div 
-        class=" h-3/6 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
+        class=" h-4/6 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
                 md:w-3/5
                 sm:w-3/5
                 xs:w-4/5 xs:h-3/5"
@@ -39,8 +39,8 @@
           v-if="submitbtn"
           class="searchbtn w-1/3 max-w-xs bg-green p-1 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2
           md:text-lg
-          sm:text-sm
-          xs:text-sm"
+          sm:text-base
+          xs:text-base  xs:w-1/3"
           @click="login"
         >
           Submit

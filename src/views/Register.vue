@@ -2,7 +2,7 @@
   <div class="w-full h-screen">
     <div class="flex justify-center items-center flex-col h-full">
       <div 
-        class="h-2/4 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
+        class="h-3/4 w-2/5 flex flex-col justify-center items-center gap-y-5 bg-logreg rounded-xl
                md:w-3/5
                sm:w-3/5
                xs:w-4/5 xs:h-3/5"

@@ -30,7 +30,10 @@
         name="fade"
         mode="out-in"
       >
-        <Spinner v-if="spinner" />
+        <Spinner
+          v-if="spinner"
+          class="spinner"
+        />
       </Transition>
       <TransitionGroup
         tag="ul" 
@@ -43,7 +46,7 @@
       </TransitionGroup>
       <div
         v-if="hideBtnsOnLoad"
-        class="flex items-center justify-center text-white gap-8 mt-5 pb-5 text-xl"
+        class="flex items-center justify-center text-white gap-8 mt-5 pb-5 text-xl sm:text-base xs:text-base"
       >
         <button
           v-if=" page === 1 ? hiddenBtn : true"
@@ -186,7 +189,7 @@ const showNextTweets = async () =>{
   spinner.value = false;
   showItems.value = true;
   hideBtnsOnLoad.value = true;
-  window.scrollTo(0, 0);
+  scrollToTop();
 };
 
 const showPreviousTweets = async () =>{
@@ -225,7 +228,7 @@ const showPreviousTweets = async () =>{
   spinner.value = false;
   showItems.value = true;
   hideBtnsOnLoad.value = true;
-  window.scrollTo(0, 0);
+  scrollToTop();
 };
 
 const noDispNextBtn = ref();
@@ -252,9 +255,28 @@ const hidePrevBtn = async () =>{
 
 hidePrevBtn();
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
 onMounted(()=>{
   getTweets();
 });
 
+
 </script>
 
+<style scoped>
+@media screen and (max-width: 1279px){
+  .spinner{
+  top: 80%;
+}
+}
+
+@media screen and (max-width: 1023){
+  .spinner{
+  top: 80%;
+}
+}
+
+</style>
