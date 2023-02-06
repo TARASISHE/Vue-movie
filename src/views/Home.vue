@@ -35,7 +35,7 @@
       >
       <div class="flex items-center md:flex-col">
         <button class="searchbtn w-full max-w-xs bg-green p-4 rounded-lg text-white text-xl uppercase duration-300 active:bg-darkgreen mt-2 md:max-w-sm md:w-64 ">
-          Search
+          Searchasfasfas
         </button>
         <p
           v-if="loadingMessage"

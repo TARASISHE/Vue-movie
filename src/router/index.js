@@ -4,7 +4,7 @@ import MovieDetail from '../views/MovieDetail.vue';
 import Forum from '../views/Forum.vue';
 import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
-import { getAuth } from '@firebase/auth';
+import { auth } from '../firebase'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,18 +41,14 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) =>{
-  if (to.matched.some((record)=> record.meta.requiresAuth)){
-    if (getAuth().currentUser){
-      next(); 
-    } else {
-      alert('Don`t have access');
-      next('/login');
-      return;
-    }
+  if (to.matched.some((record)=> record.meta.requiresAuth) && !auth.currentUser){
+    next('/login');
+    return;
   } else {
     next();
   } 
 });
+
 
 
 export default router;
