@@ -81,7 +81,7 @@ import {
   limit, 
   endBefore, 
   limitToLast, 
-  getCountFromServer 
+  getCountFromServer
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -111,7 +111,6 @@ const addTweet = () =>{
 
 
 const getTotalDocuments = async () =>{
-
   const totalDates = query(collection(db, 'tweets'));
   const documentSnapshots = await getDocs(totalDates);
   const total = documentSnapshots.docs.length;
@@ -130,12 +129,14 @@ const getTweets = async ()=>{
   );
 
   getTotalDocuments();
+  
   const documentSnapshots = await getDocs(first);
   const lastVisible =
     documentSnapshots.docs[documentSnapshots.docs.length - 1] || null;
   const firstVisible = documentSnapshots.docs[0] || null;
   lastVisibles.value = lastVisible;
   firstVisibles.value = firstVisible;
+
 
   const querySnapshot = await getDocs(first);
   const fbTweets = [];
@@ -148,12 +149,13 @@ const getTweets = async ()=>{
       date: doc.data().date
     }; 
     fbTweets.push(item);
-  });
+  }); 
   items.value = fbTweets;
   spinner.value = false;
   showItems.value = true;
   hideBtnsOnLoad.value = true;
 };
+
 
 const showNextTweets = async () =>{
   spinner.value = true;
