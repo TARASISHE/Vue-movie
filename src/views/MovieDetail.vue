@@ -1,4 +1,7 @@
 <template>
+  <div class="top">
+    <Spinner v-if="spinner"/>
+  </div>
   <div
     class="container pt-40 px-4
   xs:pt-20"
@@ -39,12 +42,15 @@
 <script setup>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import Spinner from '../components/Spinner.vue';
 
 const movie = ref({});
 const route = useRoute();
+const spinner = ref(false);
 
 const loadInfoAboutMovie = async() =>{
   try {
+    spinner.value = true;
     const resp = await fetch(
       `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_MOVIE_KEY}&i=${route.params.id}&plot=full`
     );
@@ -52,8 +58,20 @@ const loadInfoAboutMovie = async() =>{
     movie.value = data;
   } catch (error){
     alert(`Error:${error}`);
+  } finally {
+    spinner.value = false;
   }
 };
 loadInfoAboutMovie();
 
 </script>
+
+<style scoped>
+.top{
+  position: absolute;
+  top: -400px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>

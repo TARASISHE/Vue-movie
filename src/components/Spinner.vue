@@ -16,7 +16,7 @@
   animation: rotate 2s linear infinite;
   z-index: 2;
   position: absolute;
-  top: 70%;
+  top: 75%;
   left: 50%;
   margin: -25px 0 0 -25px;
   width: 50px;
