@@ -4,7 +4,7 @@ import MovieDetail from '../views/MovieDetail.vue';
 import Forum from '../views/Forum.vue';
 import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
-import { auth } from '../firebase'
+import { auth } from '../firebase';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,15 +40,15 @@ const router = createRouter({
   ]
 });
 
-router.beforeEach((to, from, next) =>{
-  if (to.matched.some((record)=> record.meta.requiresAuth) && !auth.currentUser){
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login' && auth.currentUser) {
+    next('/');
+    return;
+  } else if (to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser) {
     next('/login');
     return;
-  } else {
-    next();
-  } 
+  }
+  next();
 });
-
-
 
 export default router;
