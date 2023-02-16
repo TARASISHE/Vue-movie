@@ -40,24 +40,14 @@ const router = createRouter({
   ]
 });
 
-// router.beforeEach((to, from, next) =>{
-//   if (to.matched.some((record)=> record.meta.requiresAuth) && !auth.currentUser){
-//     next('/');
-//     return;
-//   } else {
-//     next();
-//   } 
-// });
-
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login' && auth.currentUser) {
+router.beforeEach((to, from, next) =>{
+  if (to.matched.some((record)=> record.meta.requiresAuth) && !auth.currentUser){
     next('/');
     return;
-  } else if (to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser) {
-    next('/login');
-    return;
-  }
-  next();
+  } else {
+    next();
+  } 
 });
+
 
 export default router;
