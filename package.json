@@ -2,6 +2,7 @@
   "name": "vue-movie",
   "version": "0.0.0",
   "private": true,
+  "homepage": "https://tarasishe.github.io/Vue-movie/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
