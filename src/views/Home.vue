@@ -88,8 +88,10 @@ const searchMovies = async () =>{
     if (search.value !== ''){
       const resp = await fetch(`https://www.omdbapi.com/?apikey=${import.meta.env.VITE_MOVIE_KEY}&s=${search.value}`);
       const data = await resp.json();
+      console.log(data)
       if (data.Search){
         movies.value = data.Search;
+        console.log(data.Search)
         errStatus.value = false;
       } else {
         errStatus.value = true;
