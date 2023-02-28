@@ -11,7 +11,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  base: 'https://tarasishe.github.io/Vue-movie/',
+  base: '/Vue-movie/',
   build: {
     chunkSizeWarningLimit: 1600
   }
